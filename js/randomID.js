@@ -1,17 +1,37 @@
 const letters = 'ABCDEFGHJKLMNPQRSTUVXYWZIO';
-function ramdomTWID() {
+const genderList = ['1', '2'];
 
-    let rndLetter = 0;
-    let rndNums = 0;
-    let rndID = '';
-    let rndGender = 0;
+function ramdomTWID(...option) {
+    // option[0] = 指定區域，無指定為 none
+    // option[1] = 指定性別
 
-    rndLetter = parseInt(Math.random() * letters.length);
+    let rndLetter,
+        rndNums,
+        rndID,
+        rndGender;
+
+
+    // 產生 7 位亂數
     rndNums = parseInt(Math.random() * 10000000);
-    rndGender = parseInt(Math.random() * 2 + 1);
-    rndID = letters[rndLetter] + rndGender + rndNums;
-    console.log(rndID);
-    takeFinalNumber(rndID);
+
+    // 判斷是否有指定性別
+    if (genderList.indexOf(option[1]) !== -1) {
+        rndGender = option[1];
+    }
+    else {
+        rndGender = parseInt(Math.random() * 2 + 1);
+    }
+
+    // 判斷是否有需要指定區域
+    if (option[0] !== 'none') {
+        rndID = option[0] + rndGender + rndNums;
+    }
+    else {
+        rndLetter = parseInt(Math.random() * letters.length);
+        rndID = letters[rndLetter] + rndGender + rndNums;
+    }
+
+    return rndID + takeFinalNumber(rndID);
 }
 
 function takeFinalNumber(id) {
@@ -29,8 +49,10 @@ function takeFinalNumber(id) {
         sum += ns[i] * (8 - i);
     }
 
-    console.log(sum % 10);
+
+    // 如果 sum % 10 = 0 則最後一位為 0
+    // 否則回傳可以讓 (sum + n) % 10 等於 0 的 n
+    return sum % 10 === 0 ? 0 : 10 - sum % 10;
 
 }
 
-ramdomTWID();
