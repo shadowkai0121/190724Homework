@@ -1,4 +1,4 @@
-; (function (global) {
+(function (global) {
 
     twv = function (request) {
         return new twv.init(request);
@@ -21,7 +21,6 @@
             return result ? 'id' : '';
         },
         randomID: function (...option) {
-            console.log(option);
             // option[0] = 指定區域
             // option[1] = 指定性別
 
@@ -52,14 +51,18 @@
                 rndID = idParams.prefix[rndLetter] + rndGender + rndNums;
             }
 
+            // 補上最後一號
             lastNum = this.idSum(rndID) % 10 === 0 ?
                 0 : 10 - this.idSum(rndID) % 10;
+
             return rndID + lastNum;
         },
         // id 數字加總驗證
         idSum: function (queryString) {
-            let controller = queryString.length < 10 ? 0 : 1;
-            first = queryString[0],
+
+            let first = queryString[0],
+                // 確認是要驗證還是要亂數
+                controller = queryString.length < 10 ? 0 : 1,
                 // 轉換字首對應的數字
                 n12 = idParams.prefix.indexOf(first) + 10,
                 n1 = parseInt(n12 / 10),
@@ -80,19 +83,22 @@
 
     twv.prototype = {
         validate: function (queryString) {
-            const idPattern = /^[A-Z][12]\d{8}/gi;
+            const idPattern = /^[A-Z][12]\d{8}/g;
+            const emailPattern = /^\w+@\w+\.[A-Za-z]+/g
 
             if (idPattern.exec(queryString)) {
                 return features.idVertify(queryString);
             }
+            else if (emailPattern.exec(queryString)) {
+                return 'email';
+            }
         },
-        getRndID: function (area, gender) {
+        randomID: function (area, gender) {
             return features.randomID(area, gender);
         }
     }
 
     twv.init = function (request) {
-
         this.type = this.validate(request);
     }
 

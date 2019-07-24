@@ -6,37 +6,66 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>身分證字號產生機</title>
+    <link rel='stylesheet'
+        href='https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.3.1/css/bootstrap.min.css' />
+    <style>
+        body {
+            background-color: rgba(167, 166, 166, 0.349);
+        }
+    </style>
 </head>
 
 <body>
-    <h3>身分證字號產生機</h3>
-    <form>
-        <label for="area">是否指定地區</label>
-        <select name="" id="area">
-            <option value="" selected>不指定</option>
-        </select>
-        <br>
-        <label for="gender">是否指定性別</label>
-        <select name="" id="gender">
-            <option value="3" selected>不指定</option>
-            <option value="1">男</option>
-            <option value="2">女</option>
-        </select>
-        <br>
-        <input id="newID" type="text" disabled>
-        <input type="button" value="取得身分證" onclick="getID()">
-    </form>
+    <div class="container">
+        <div class="row my-5">
+            <div class="col-md-4">&nbsp;</div>
+            <div class="col-md-4 card">
+                <h3 class="card-title pt-3">身分證字號產生機</h3>
+                <form>
+                    <label for="area">是否指定地區</label>
+                    <select name="" id="area" onchange="getID()">
+                        <option value="" selected>不指定</option>
+                    </select>
+                    <br>
+                    <label for="gender">是否指定性別</label>
+                    <select name="" id="gender" onchange="getID()">
+                        <option value="3" selected>不指定</option>
+                        <option value="1">男</option>
+                        <option value="2">女</option>
+                    </select>
+                    <br>
+                    <input id="newID" type="text" disabled>
+                    <br>
+                    <input class="btn btn-info mt-3 float-right" type="button" value="取得身分證" onclick="getID()">
+                </form>
+                <div class="col-md-4">
+                    &nbsp;
+                </div>
+            </div>
+        </div>
 
-    <label for="checkID">確認：</label>
-    <br>
-    <input id="checkID" type="text" oninput="checkID(this.value)">
-    <br>
-    <span id="checkResult"></span>
+        <div class="row">
+            <div class="col-md-4">
+                &nbsp;
+            </div>
+            <div class="col-md-4 pt-3 card">
+                <h3 class="card-title">驗證：</h3>
+                <form>
+                    <input id="checkID" type="text" oninput="checkID(this.value)" placeholder="身分證驗證">
+                    <br>
+                    <input class="my-3" type="checkEmail" oninput="checkEmail(this.value)" placeholder="信箱驗證">
+                    <br>
+                    <span id="checkResult"></span>
+                </form>
+            </div>
+            <div class="col-md-4">
+                &nbsp;
+            </div>
+        </div>
+    </div>
 
     <script src='https://cdnjs.cloudflare.com/ajax/libs/axios/0.19.0/axios.min.js'></script>
     <script src="js/twVerifier.js"></script>
-    <script src="js/checkID.js"></script>
-    <script src='js/randomID.js'></script>
     <script src="js/main.js"></script>
 </body>
 
