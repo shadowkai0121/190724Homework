@@ -12,7 +12,8 @@ function ramdomTWID(...option) {
 
 
     // 產生 7 位亂數
-    rndNums = parseInt(Math.random() * 10000000);
+    rndNums = '' + parseInt(Math.random() * 10000000);
+    rndNums = rndNums.padStart(7, '0');
 
     // 判斷是否有指定性別
     if (genderList.indexOf(option[1]) !== -1) {
