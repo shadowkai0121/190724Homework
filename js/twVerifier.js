@@ -18,9 +18,10 @@
 
             result = sum % 10 === 0;
 
-            return result ? 'ID' : '';
+            return result ? 'id' : '';
         },
         randomID: function (...option) {
+            console.log(option);
             // option[0] = 指定區域
             // option[1] = 指定性別
 
@@ -55,6 +56,7 @@
                 0 : 10 - this.idSum(rndID) % 10;
             return rndID + lastNum;
         },
+        // id 數字加總驗證
         idSum: function (queryString) {
             let controller = queryString.length < 10 ? 0 : 1;
             first = queryString[0],
@@ -98,5 +100,3 @@
 
     global.twv = twv;
 }(window));
-
-console.log(twv().getRndID('A', 1));
