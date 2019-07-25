@@ -1,37 +1,8 @@
-axios.get('https://raw.githubusercontent.com/shadowkai0121/myNotes/master/JavaScript/JS_D3/TaiwanMap/taiwan.json')
-    .then(res => {
-        let data = res.data.objects.County_MOI_1060525.geometries,
-            region;
-
-        for (let item of data) {
-            region = `<option value="${item.properties.COUNTYID}">${item.properties.COUNTYNAME}</option>`;
-            document.getElementById('area').insertAdjacentHTML(
-                'beforeend', region);
-        }
-    });
-
-function checkID(id) {
-    document.getElementById('checkResult').innerHTML =
-        twv(id).type === 'id' ? '格式正確' : '身分證格式錯誤';
-}
-
-function checkEmail(email) {
-    document.getElementById('checkResult').innerHTML =
-        twv(email).type === 'email' ? '格式正確' : '信箱格式錯誤';
-}
-
-function getID() {
-    let area = document.getElementById('area').value;
-    let gender = document.getElementById('gender').value;
-
-    document.getElementById('newID').value = twv().randomID(area, gender);
-}
-
-
 
 // 驗證 & 隨機身分證
 (function (global) {
 
+    // 先建立物件給全域使用
     twv = function (request) {
         return new twv.init(request);
     }
@@ -112,7 +83,7 @@ function getID() {
     }
 
 
-
+    // 全域使用的功能
     twv.prototype = {
         validate: function (queryString) {
             const idPattern = /^[A-Z][12]\d{8}/g;
@@ -130,11 +101,47 @@ function getID() {
         }
     }
 
+    // 物件建構子
     twv.init = function (request) {
         this.type = this.validate(request);
     }
 
     twv.init.prototype = twv.prototype;
 
+    // 全域使用 twv() 操作物件
     global.twv = twv;
 }(window));
+
+
+
+// 取得縣市、字首資料
+axios.get('https://raw.githubusercontent.com/shadowkai0121/myNotes/master/JavaScript/JS_D3/TaiwanMap/taiwan.json')
+    .then(res => {
+        let data = res.data.objects.County_MOI_1060525.geometries,
+            region;
+
+        for (let item of data) {
+            region = `<option value="${item.properties.COUNTYID}">${item.properties.COUNTYNAME}</option>`;
+            document.getElementById('area').insertAdjacentHTML(
+                'beforeend', region);
+        }
+    });
+
+function vertifyID(id) {
+    document.getElementById('checkResult').innerHTML =
+        twv(id).type === 'id' ? '格式正確' : '身分證格式錯誤';
+}
+
+function vertifyEmail(email) {
+    document.getElementById('checkResult').innerHTML =
+        twv(email).type === 'email' ? '格式正確' : '信箱格式錯誤';
+}
+
+function getID() {
+    let area = document.getElementById('area').value;
+    let gender = document.getElementById('gender').value;
+
+    document.getElementById('newID').value = twv().randomID(area, gender);
+}
+
+
